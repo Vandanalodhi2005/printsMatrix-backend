@@ -9,7 +9,18 @@ const userSchema = mongoose.Schema({
     password: { type: String, required: true },
     isAdmin: { type: Boolean, required: true, default: false },
     isBlocked: { type: Boolean, default: false },
-    avatar: { type: String, default: null }
+    avatar: { type: String, default: null },
+    cart: [
+        {
+            product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
+            title: { type: String },
+            image: { type: String },
+            price: { type: Number },
+            countInStock: { type: Number },
+            slug: { type: String },
+            qty: { type: Number },
+        }
+    ]
 }, {
     timestamps: true
 });

@@ -39,8 +39,9 @@ const getShippingRates = asyncHandler(async (req, res) => {
     });
 
     // Customer Address
-    // Note: If state is missing, EasyPost might infer it from Zip but better to have it.
+    // Note: EasyPost requires a name or company for some carriers.
     const toAddress = await client.Address.create({
+        name: shippingAddress.name || 'Valued Customer',
         street1: shippingAddress.address,
         city: shippingAddress.city,
         state: shippingAddress.state || '', 
@@ -51,7 +52,6 @@ const getShippingRates = asyncHandler(async (req, res) => {
 
     // Calculate Weight
     // Assuming 20oz (1.25 lbs) per item as default if no weight property exists
-    // EasyPost expects weight in ounces
     const totalWeightOz = cartItems.reduce((acc, item) => {
         const itemWeight = item.weight ? parseFloat(item.weight) : 20; 
         return acc + (itemWeight * item.qty);
@@ -61,31 +61,41 @@ const getShippingRates = asyncHandler(async (req, res) => {
         weight: totalWeightOz
     });
 
+    try {
         const shipment = await client.Shipment.create({
                 to_address: toAddress,
                 from_address: fromAddress,
                 parcel: parcel
         });
 
-        // Filter rates to only show the 4 specified accounts
-        const allowedAccounts = [
-            'ca_e3cbd16a6eb84914985d90875a6ec074', // Canada Post
-            'ca_76d0939dc1ce4c99870bbc2844d8d02b', // FedEx
-            'ca_c5f03a14c10d4fbab837e8a35b01c7df', // UPS
-            'ca_b82a2962176446d09a48bc649977f467'  // USPS
-        ];
+        // Filter rates by carrier name
+        const allowedCarriers = ['USPS', 'UPS', 'FedEx', 'Canada Post', 'UPSDAP'];
 
-        // UPSDAP account: 1399VH (not an EasyPost account ID, but may be in carrier_account_id or carrier)
-        // If UPSDAP is a carrier, include it by carrier name
-        const filteredRates = shipment.rates.filter(rate => {
-            // Some rates have carrier_account_id, some may have carrier
-            return (
-                allowedAccounts.includes(rate.carrier_account_id) ||
-                (rate.carrier === 'UPSDAP' || rate.carrier_account_id === '1399VH')
-            );
+        let filteredRates = shipment.rates.filter(rate => {
+            return allowedCarriers.some(c => rate.carrier && rate.carrier.toLowerCase().includes(c.toLowerCase()));
         });
 
+        // If strict filtering results in 0 rates, return all available rates from EasyPost
+        if (filteredRates.length === 0) {
+            filteredRates = shipment.rates;
+        }
+
+        // Handle case where still no rates
+        if (filteredRates.length === 0 && shipment.messages.length > 0) {
+            console.error("EasyPost Shipment Messages:", shipment.messages);
+            const errors = shipment.messages.filter(m => m.type === 'rate_error').map(m => m.message).join(', ');
+            if (errors) {
+                res.status(400);
+                throw new Error(`Shipping Error: ${errors}`);
+            }
+        }
+
         res.json(filteredRates);
+    } catch (error) {
+        console.error("Shipping Calculation Error:", error);
+        res.status(error.status || 500);
+        throw new Error(error.message || "Failed to calculate shipping rates.");
+    }
 });
 
 module.exports = { getShippingRates };

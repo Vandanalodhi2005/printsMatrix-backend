@@ -113,6 +113,7 @@ const authUser = asyncHandler(async (req, res) => {
             name: user.name,
             email: user.email,
             isAdmin: user.isAdmin,
+            cart: user.cart || [],
             token: generateToken(user._id),
         });
     } else {
@@ -343,6 +344,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
             name: user.name,
             email: user.email,
             isAdmin: user.isAdmin,
+            cart: user.cart || [],
         });
     } else {
         res.status(404);
@@ -480,6 +482,23 @@ const unblockUser = async (req, res, next) => {
     }
 };
 
+// @desc    Update user cart
+// @route   POST /api/auth/cart
+// @access  Private
+const saveUserCart = asyncHandler(async (req, res) => {
+    const { cartItems } = req.body;
+    const user = await User.findById(req.user._id);
+
+    if (user) {
+        user.cart = cartItems;
+        await user.save();
+        res.status(200).json({ message: 'Cart saved successfully' });
+    } else {
+        res.status(404);
+        throw new Error('User not found');
+    }
+});
+
 module.exports = {
     authUser,
     sendRegistrationOTP,
@@ -492,5 +511,6 @@ module.exports = {
     deleteUser,
     blockUser,
     unblockUser,
-    registerUser
+    registerUser,
+    saveUserCart
 };

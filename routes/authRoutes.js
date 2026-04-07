@@ -12,7 +12,8 @@ const {
     deleteUser,
     blockUser,
     unblockUser,
-    registerUser
+    registerUser,
+    saveUserCart
 } = require('../controllers/authController');
 const { protect, admin } = require('../middleware/authMiddleware');
 
@@ -27,5 +28,6 @@ router.route('/users').get(protect, admin, getUsers);
 router.route('/users/:id').delete(protect, admin, deleteUser);
 router.route('/users/:id/block').put(protect, admin, blockUser);
 router.route('/users/:id/unblock').put(protect, admin, unblockUser);
+router.route('/cart').post(protect, saveUserCart);
 
 module.exports = router;
