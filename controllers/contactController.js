@@ -91,13 +91,14 @@ ${additionalDetails || 'N/A'}
 
         fromName = name;
         replyToEmail = email;
-        subject = `Contact Form: ${reqSubject} from ${name}`;
+        const finalSubject = reqSubject || 'No Subject';
+        subject = `Contact Form: ${finalSubject} from ${name}`;
         text = `
 Name: ${name}
 Email: ${email}
 Phone: ${phone || 'N/A'}
 Order Number: ${orderNumber || 'N/A'}
-Subject: ${reqSubject}
+Subject: ${finalSubject}
 
 Message:
 ${message}
@@ -108,7 +109,7 @@ ${message}
 <p><strong>Email:</strong> ${email}</p>
 <p><strong>Phone:</strong> ${phone || 'N/A'}</p>
 <p><strong>Order Number:</strong> ${orderNumber || 'N/A'}</p>
-<p><strong>Subject:</strong> ${reqSubject}</p>
+<p><strong>Subject:</strong> ${finalSubject}</p>
 <p><strong>Message:</strong></p>
 <p>${message.replace(/\n/g, '<br>')}</p>
             `;
@@ -117,11 +118,11 @@ ${message}
     // Send email using shared service
     try {
         await sendEmail({
-            to: 'support@innovationdynamicsgroup.com',
+            to: process.env.CONTACT_RECEIVER_EMAIL || 'support@innovationdynamicsgroup.com',
             subject,
             html,
             text,
-            from: `"${fromName}" <no-reply@innovationdynamicsgroup.com>`,
+            from: `"${fromName}" <${process.env.EMAIL_FROM}>`,
             replyTo: replyToEmail
         });
         res.status(200).json({ message: 'Email sent successfully' });
