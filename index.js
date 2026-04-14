@@ -28,7 +28,14 @@ const io = new Server(server, {
 });
 
 
-app.use(cors())
+app.use(cors({
+    origin: [
+        "https://printsmatrix1.netlify.app",
+        "http://localhost:5173",
+        "https://innovationdynamicsgroup.com"
+    ],
+    credentials: true
+}));
 app.use(express.json());
 // Serve uploaded product images with long-term cache headers (1 year)
 app.use('/uploads', (req, res, next) => {
