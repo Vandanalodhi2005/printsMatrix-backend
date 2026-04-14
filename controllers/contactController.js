@@ -117,19 +117,21 @@ ${message}
 
     // Send email using shared service
     try {
+        const emailFrom = process.env.EMAIL_FROM || 'no-reply@innovationdynamicsgroup.com';
+        const emailTo = process.env.CONTACT_RECEIVER_EMAIL || 'support@innovationdynamicsgroup.com';
+        const safeName = (fromName || 'Contact Form').replace(/"/g, '');
         await sendEmail({
-            to: process.env.CONTACT_RECEIVER_EMAIL || 'support@innovationdynamicsgroup.com',
+            to: emailTo,
             subject,
             html,
             text,
-            from: `"${fromName}" <${process.env.EMAIL_FROM}>`,
+            from: `"${safeName}" <${emailFrom}>`,
             replyTo: replyToEmail
         });
         res.status(200).json({ message: 'Email sent successfully' });
     } catch (error) {
-        console.error('Contact email sending error:', error);
-        res.status(500);
-        throw new Error('Failed to send email. Please try again later.');
+        console.error('Contact email sending error:', error.message);
+        res.status(500).json({ message: 'Failed to send email. Please try again later.' });
     }
 });
 
