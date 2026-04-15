@@ -18,7 +18,8 @@ const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
         origin: [
-            "https://printsmatrix1.netlify.app",
+            "https://printsmatrixhai.netlify.app",
+            "https://printsmatrix.netlify.app",            "https://printsmatrix1.netlify.app",
             "http://localhost:5173",
             "http://localhost:5174",
             "https://innovationdynamicsgroup.com",
@@ -31,6 +32,9 @@ const io = new Server(server, {
 
 app.use(cors({
     origin: [
+        "https://printsmatrixhai.netlify.app",
+        "https://printsmatrix.netlify.app",            
+        "https://printsmatrix1.netlify.app",
         "https://printsmatrix.com",
         "http://localhost:5173",
         "http://localhost:5174",
