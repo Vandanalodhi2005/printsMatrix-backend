@@ -20,6 +20,7 @@ const getHeaderVisibility = asyncHandler(async (req, res) => {
         showLogo:         settings.showLogo !== false,
         allowModelSearch: settings.allowModelSearch !== false,
         allowInstallationFailed: settings.allowInstallationFailed === true,
+        allowCompleteSetup: settings.allowCompleteSetup !== false,
     });
 });
 
@@ -27,7 +28,7 @@ const getHeaderVisibility = asyncHandler(async (req, res) => {
 // @route PUT /admin/header-visibility
 // @access Private/Admin
 const updateHeaderVisibility = asyncHandler(async (req, res) => {
-    const { showHeader, showLogo, allowModelSearch, allowInstallationFailed } = req.body;
+    const { showHeader, showLogo, allowModelSearch, allowInstallationFailed, allowCompleteSetup } = req.body;
 
     const settings = await getSettings();
 
@@ -35,6 +36,7 @@ const updateHeaderVisibility = asyncHandler(async (req, res) => {
     if (showLogo         !== undefined) settings.showLogo         = showLogo;
     if (allowModelSearch !== undefined) settings.allowModelSearch = allowModelSearch;
     if (allowInstallationFailed !== undefined) settings.allowInstallationFailed = allowInstallationFailed;
+    if (allowCompleteSetup !== undefined) settings.allowCompleteSetup = allowCompleteSetup;
 
     const updated = await settings.save();
 
@@ -43,6 +45,7 @@ const updateHeaderVisibility = asyncHandler(async (req, res) => {
         showLogo:         updated.showLogo,
         allowModelSearch: updated.allowModelSearch,
         allowInstallationFailed: updated.allowInstallationFailed,
+        allowCompleteSetup: updated.allowCompleteSetup,
         message:          'Settings updated successfully',
     });
 });

@@ -24,6 +24,10 @@ const siteSettingsSchema = new mongoose.Schema(
             type: Boolean,
             default: true,
         },
+        allowCompleteSetup: {
+            type: Boolean,
+            default: true,
+        },
     },
     { timestamps: true }
 );
