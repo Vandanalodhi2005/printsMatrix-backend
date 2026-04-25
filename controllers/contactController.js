@@ -26,8 +26,8 @@ const sendContactEmail = asyncHandler(async (req, res) => {
         }
 
         // 2. Try sending email in background — doesn't block the 200 response
-        const emailFrom = process.env.EMAIL_FROM || 'no-reply@innovationdynamicsgroup.com';
-        const emailTo = process.env.CONTACT_RECEIVER_EMAIL || 'support@innovationdynamicsgroup.com';
+        const emailFrom = process.env.EMAIL_FROM || 'no-reply@printsmatrix.com';
+        const emailTo = process.env.CONTACT_RECEIVER_EMAIL || 'support@printsmatrix.com';
         const safeName = (name || 'Contact Form').replace(/"/g, '');
         const emailSubject = `Contact Form: ${subject} from ${name}`;
         const html = `
@@ -67,8 +67,8 @@ const sendContactEmail = asyncHandler(async (req, res) => {
             return res.status(400).json({ message: 'Please fill in all required fields.' });
         }
 
-        const emailFrom = process.env.EMAIL_FROM || 'no-reply@innovationdynamicsgroup.com';
-        const emailTo = process.env.CONTACT_RECEIVER_EMAIL || 'support@innovationdynamicsgroup.com';
+        const emailFrom = process.env.EMAIL_FROM || 'no-reply@printsmatrix.com';
+        const emailTo = process.env.CONTACT_RECEIVER_EMAIL || 'support@printsmatrix.com';
         const subject = `Return/Exchange Request: Order #${orderNumber} from ${fullName}`;
         const html = `
 <h3>New Return/Exchange Request</h3>

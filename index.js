@@ -22,7 +22,7 @@ const io = new Server(server, {
             "https://printsmatrix.netlify.app",            "https://printsmatrix1.netlify.app",
             "http://localhost:5173",
             "http://localhost:5174",
-            "https://innovationdynamicsgroup.com",
+            "https://www.printsmatrix.com",
         ],
         methods: ["GET", "POST"],
         credentials: true
@@ -38,7 +38,7 @@ app.use(cors({
         "https://printsmatrix.com",
         "http://localhost:5173",
         "http://localhost:5174",
-        "https://innovationdynamicsgroup.com"
+        "https://www.printsmatrix.com"
     ],
     credentials: true
 }));

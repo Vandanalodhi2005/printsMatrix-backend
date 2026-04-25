@@ -7,8 +7,8 @@ const testEmail = async () => {
     
     // Simulate what the controller does
     const fromName = "John Doe Test";
-    const emailFrom = process.env.EMAIL_FROM || 'support@innovationdynamicsgroup.com';
-    const receiver = process.env.CONTACT_RECEIVER_EMAIL || 'support@innovationdynamicsgroup.com';
+    const emailFrom = process.env.EMAIL_FROM || 'support@printsmatrix.com';
+    const receiver = process.env.CONTACT_RECEIVER_EMAIL || 'support@printsmatrix.com';
 
     const transporter = nodemailer.createTransport({
         host: process.env.EMAIL_HOST || 'smtp-relay.brevo.com',
@@ -27,7 +27,7 @@ const testEmail = async () => {
         const info = await transporter.sendMail({
             from: `"${fromName}" <${emailFrom}>`,
             to: receiver,
-            subject: 'SMTP Test (Advanced Format) - Innovation Dynamics Group',
+            subject: 'SMTP Test (Advanced Format) - Prints Matrix',
             text: 'Testing with Name in From field.',
             html: '<b>Testing with Name in From field.</b>'
         });

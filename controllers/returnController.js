@@ -80,11 +80,11 @@ Manage this request in the admin dashboard.
 
         try {
             await sendEmail({
-                to: 'support@innovationdynamicsgroup.com',
+                to: 'support@printsmatrix.com',
                 subject,
                 text,
                 html,
-                from: `"${fullName}" <no-reply@innovationdynamicsgroup.com>`,
+                from: `"${fullName}" <no-reply@printsmatrix.com>`,
                 replyTo: email
             });
         } catch (error) {

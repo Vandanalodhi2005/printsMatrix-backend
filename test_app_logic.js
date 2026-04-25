@@ -6,7 +6,7 @@ const fullAppTest = async () => {
     console.log('--- Full App emailService Test ---');
     try {
         const result = await sendEmail({
-            to: process.env.CONTACT_RECEIVER_EMAIL || 'support@innovationdynamicsgroup.com',
+            to: process.env.CONTACT_RECEIVER_EMAIL || 'support@printsmatrix.com',
             subject: 'Full App Code Test',
             text: 'Testing exactly what the app uses.',
             html: '<b>Testing exactly what the app uses.</b>'

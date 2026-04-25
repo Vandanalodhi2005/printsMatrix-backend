@@ -7,12 +7,12 @@ const client = new EasyPostClient(process.env.EASYPOST_API_KEY);
 async function test() {
     try {
         const fromAddressUS = await client.Address.create({
-            company: 'Innovation Dynamics Group LLC',
-            street1: '11397 Quincy St NE', 
-            city: 'Blaine',
-            state: 'MN',
-            zip: '55434',
-            country: 'US',
+            company: 'Prints Matrix',
+            street1: '95 Broadacre Dr', 
+            city: 'Kitchener',
+            state: 'ON',
+            zip: 'N2R 0S5',
+            country: 'CA',
             phone: '651-815-4630'
         });
 

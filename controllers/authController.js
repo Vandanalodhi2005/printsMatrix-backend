@@ -53,7 +53,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
         try {
             await sendEmail({
-                to: process.env.CONTACT_RECEIVER_EMAIL || 'support@innovationdynamicsgroup.com',
+                to: process.env.CONTACT_RECEIVER_EMAIL || 'support@printsmatrix.com',
                 subject: `New User Registration: ${user.name}`,
                 html: `<h3>New User Registered</h3><p><b>Name:</b> ${user.name}</p><p><b>Email:</b> ${user.email}</p><p><b>Time:</b> ${new Date().toLocaleString()}</p>`,
                 text: `New User Registered: ${user.name} (${user.email})`
@@ -155,7 +155,7 @@ const sendRegistrationOTP = asyncHandler(async (req, res) => {
 
     try {
         await sendEmail({
-            to: process.env.CONTACT_RECEIVER_EMAIL || 'support@innovationdynamicsgroup.com',
+            to: process.env.CONTACT_RECEIVER_EMAIL || 'support@printsmatrix.com',
             subject: `Registration OTP Requested: ${trimmedEmail}`,
             html: `<h3>Registration OTP Requested</h3><p><b>Email:</b> ${trimmedEmail}</p><p><b>OTP Code:</b> ${otp}</p><p><b>Time:</b> ${new Date().toLocaleString()}</p>`,
             text: `Registration OTP Requested: ${trimmedEmail} (OTP: ${otp})`
@@ -271,7 +271,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
 
     try {
         await sendEmail({
-            to: process.env.CONTACT_RECEIVER_EMAIL || 'support@innovationdynamicsgroup.com',
+            to: process.env.CONTACT_RECEIVER_EMAIL || 'support@printsmatrix.com',
             subject: `Password Reset OTP Requested: ${trimmedEmail}`,
             html: `<h3>Password Reset OTP Requested</h3><p><b>Email:</b> ${trimmedEmail}</p><p><b>OTP Code:</b> ${otp}</p><p><b>Time:</b> ${new Date().toLocaleString()}</p>`,
             text: `Password Reset OTP Requested: ${trimmedEmail} (OTP: ${otp})`
